@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>КОРИДОР — фан-хаб Doors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=Anton&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0D0B14;
+    --panel:#171320;
+    --panel-alt:#1F1A2B;
+    --line:#332B42;
+    --text:#EDE8F0;
+    --text-dim:#9C93AA;
+    --brass:#C9A227;
+    --brass-bright:#E3C15B;
+    --red:#9A3B45;
+    --green:#5C8A5A;
+    --blue:#5C7DA8;
+    --font-brand:'Anton','Cormorant Garamond',sans-serif;
+    --btn-shadow:0 3px 0 #7A6118, 0 6px 14px rgba(0,0,0,.45);
+    --btn-shadow-ghost:0 3px 0 #241F30, 0 6px 14px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 800px 500px at 50% -10%, #241C33 0%, transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Manrope',sans-serif;
+    min-height:100vh;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px 80px;}
+
+  /* HERO */
+  .hero{
+    padding:64px 0 40px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:32px;
+  }
+  .hero-brand{
+    font-family:var(--font-brand);
+    font-weight:400;
+    font-size:clamp(42px,7vw,64px);
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+    margin:0;
+    color:var(--text);
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+  }
+  .hero-brand .digit{
+    color:var(--brass);
+    font-variant-numeric:oldstyle-nums;
+  }
+  .hero-tag{
+    color:var(--text-dim);
+    font-size:16px;
+    margin:10px 0 0;
+    max-width:44ch;
+    line-height:1.5;
+  }
+
+  /* NAV — door plaques */
+  .doors-nav{
+    display:flex;
+    gap:10px;
+    margin-bottom:36px;
+    flex-wrap:wrap;
+  }
+  .door-plaque{
+    flex:1 1 190px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+    color:var(--text);
+    text-align:left;
+    transition:border-color .15s ease, background .15s ease, transform .12s ease, box-shadow .12s ease;
+    font-family:'Manrope',sans-serif;
+    box-shadow:0 2px 0 rgba(0,0,0,.25), 0 4px 10px rgba(0,0,0,.25);
+  }
+  .door-plaque:hover{border-color:var(--brass); transform:translateY(-2px); box-shadow:0 4px 0 rgba(0,0,0,.3), 0 8px 16px rgba(0,0,0,.35);}
+  .door-plaque:active{transform:translateY(1px);}
+  .door-plaque.active{
+    background:var(--panel-alt);
+    border-color:var(--brass);
+    box-shadow:0 0 0 1px var(--brass), 0 4px 10px rgba(0,0,0,.3);
+  }
+  .door-plaque .num{
+    font-family:'Cormorant Garamond',serif;
+    font-size:26px;
+    color:var(--brass);
+    min-width:28px;
+  }
+  .door-plaque .label{
+    font-size:14px;
+    line-height:1.3;
+  }
+  .door-plaque .label b{
+    display:block;
+    font-size:15px;
+    font-weight:700;
+  }
+  .door-plaque .label span{
+    color:var(--text-dim);
+    font-size:12.5px;
+  }
+
+  .tab{display:none;}
+  .tab.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+  h2.section-title{
+    font-family:var(--font-brand);
+    font-size:26px;
+    font-weight:400;
+    letter-spacing:.01em;
+    text-transform:uppercase;
+    margin:0 0 6px;
+  }
+  .section-sub{color:var(--text-dim);font-size:14px;margin:0 0 28px;line-height:1.5;}
+
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:24px;
+    margin-bottom:20px;
+  }
+
+  /* CASES */
+  .balance-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .balance{
+    font-family:'Cormorant Garamond',serif;
+    font-size:28px;
+    color:var(--brass-bright);
+  }
+  .balance small{
+    font-family:'Manrope',sans-serif;
+    color:var(--text-dim);
+    font-size:12px;
+    display:block;
+  }
+  .btn{
+    background:var(--brass);
+    color:#1A1408;
+    border:none;
+    padding:13px 26px;
+    border-radius:999px;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+    font-family:'Manrope',sans-serif;
+    letter-spacing:.01em;
+    box-shadow:var(--btn-shadow);
+    transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+  }
+  .btn:hover{background:var(--brass-bright); transform:translateY(-2px); box-shadow:0 5px 0 #7A6118, 0 10px 18px rgba(0,0,0,.5);}
+  .btn:active{transform:translateY(1px); box-shadow:0 1px 0 #7A6118, 0 3px 8px rgba(0,0,0,.4);}
+  .btn:disabled{background:#4a4358;color:#8b849a;cursor:not-allowed;box-shadow:none;transform:none;}
+  .btn-ghost{
+    background:var(--panel-alt);
+    border:1px solid var(--line);
+    color:var(--text);
+    box-shadow:var(--btn-shadow-ghost);
+  }
+  .btn-ghost:hover{border-color:var(--brass); background:var(--panel-alt); transform:translateY(-2px); box-shadow:0 5px 0 #241F30, 0 10px 18px rgba(0,0,0,.4);}
+  .btn-ghost:active{transform:translateY(1px); box-shadow:0 1px 0 #241F30, 0 3px 8px rgba(0,0,0,.3);}
+
+  .reel{
+    position:relative;
+    height:120px;
+    background:var(--panel-alt);
+    border:1px solid var(--line);
+    border-radius:3px;
+    overflow:hidden;
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+  }
+  .reel-track{
+    display:flex;
+    gap:14px;
+    padding:0 14px;
+    transition:transform 2.2s cubic-bezier(.15,.85,.25,1);
+  }
+  .reel-item{
+    width:88px;
+    height:88px;
+    flex:0 0 auto;
+    border-radius:2px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    text-align:center;
+    padding:8px;
+    border:1px solid var(--line);
+  }
+  .reel-item .icon{font-size:26px;margin-bottom:6px;}
+  .reel::before,.reel::after{
+    content:"";
+    position:absolute;
+    top:0;bottom:0;
+    width:70px;
+    z-index:2;
+    pointer-events:none;
+  }
+  .reel::before{left:0;background:linear-gradient(90deg, var(--panel-alt), transparent);}
+  .reel::after{right:0;background:linear-gradient(270deg, var(--panel-alt), transparent);}
+  .reel-marker{
+    position:absolute;
+    left:50%;top:0;bottom:0;
+    width:2px;
+    background:var(--brass);
+    z-index:3;
+    transform:translateX(-50%);
+  }
+
+  .rar-common{background:#241F30;color:#B7AFC6;}
+  .rar-uncommon{background:#1E2B21;color:#8FC492;border-color:var(--green);}
+  .rar-rare{background:#1E2632;color:#9DBEE8;border-color:var(--blue);}
+  .rar-mythic{background:#2E1A1F;color:#E7A6AC;border-color:var(--red);}
+
+  .result-line{
+    min-height:22px;
+    font-size:14px;
+    color:var(--text-dim);
+    margin-bottom:20px;
+  }
+  .result-line b{color:var(--brass-bright);}
+
+  .inventory{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(90px,1fr));
+    gap:10px;
+    margin-top:10px;
+  }
+  .inv-item{
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:10px 6px;
+    text-align:center;
+    font-size:12px;
+  }
+  .inv-item .icon{font-size:20px;display:block;margin-bottom:4px;}
+  .empty-note{color:var(--text-dim);font-size:13px;font-style:italic;}
+
+  /* STATS */
+  .stat-form{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+  .stat-form .full{grid-column:1/-1;}
+  label{display:block;font-size:12.5px;color:var(--text-dim);margin-bottom:5px;}
+  input[type=number],input[type=text],textarea,select{
+    width:100%;
+    background:var(--panel-alt);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:9px 10px;
+    border-radius:2px;
+    font-family:'Manrope',sans-serif;
+    font-size:14px;
+  }
+  textarea{resize:vertical;min-height:60px;}
+  .stat-summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin-bottom:22px;
+  }
+  .stat-box{
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:14px;
+    text-align:center;
+  }
+  .stat-box .val{
+    font-family:'Cormorant Garamond',serif;
+    font-size:30px;
+    color:var(--brass-bright);
+  }
+  .stat-box .lbl{font-size:12px;color:var(--text-dim);margin-top:2px;}
+  .run-row{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px solid var(--line);
+    font-size:13.5px;
+  }
+  .run-row:last-child{border-bottom:none;}
+  .run-row .meta{color:var(--text-dim);}
+
+  /* COMMUNITY */
+  .entity-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+    gap:14px;
+    margin-bottom:28px;
+  }
+  .entity-card{
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:16px;
+  }
+  .entity-card h3{
+    font-family:'Cormorant Garamond',serif;
+    font-size:18px;
+    margin:0 22px 6px 0;
+    color:var(--brass-bright);
+    line-height:1.3;
+  }
+  .entity-card p{font-size:13.5px;color:var(--text-dim);line-height:1.5;margin:0;}
+
+  .guide-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:14px;
+    margin-bottom:10px;
+  }
+  .guide-card{
+    position:relative;
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:18px;
+    background:var(--panel);
+  }
+  .guide-card h3{
+    font-family:'Cormorant Garamond',serif;
+    font-size:19px;
+    margin:0 26px 10px 0;
+    color:var(--brass-bright);
+    line-height:1.3;
+  }
+  .guide-card .floor-badge{
+    position:absolute;
+    top:16px;right:16px;
+    font-size:10px;
+    color:var(--text-dim);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:2px 8px;
+  }
+  .guide-card .row{margin-bottom:8px;}
+  .guide-card .row:last-of-type{margin-bottom:10px;}
+  .guide-card .row-label{
+    display:block;
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin-bottom:2px;
+  }
+  .guide-card .row-text{font-size:13.5px;color:var(--text-dim);line-height:1.5;margin:0;}
+  .guide-card .dmg{
+    display:inline-block;
+    font-size:11px;
+    color:var(--brass);
+    font-weight:700;
+    letter-spacing:.02em;
+  }
+
+  .forum-post{
+    border-bottom:1px solid var(--line);
+    padding:14px 0;
+  }
+  .forum-post:last-child{border-bottom:none;}
+  .forum-post .who{font-weight:700;font-size:13.5px;}
+  .forum-post .when{color:var(--text-dim);font-size:11.5px;margin-left:8px;}
+  .forum-post p{margin:6px 0 0;font-size:13.5px;line-height:1.5;}
+  .forum-form{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+  .forum-form input[type=text]:first-child{flex:0 0 160px;}
+  .forum-form input[type=text]:nth-child(2){flex:1 1 260px;}
+
+  /* RANK */
+  .quiz-q{margin-bottom:18px;}
+  .quiz-q label{font-size:13.5px;color:var(--text);margin-bottom:6px;}
+  .rank-result{
+    display:none;
+    text-align:center;
+    padding:28px 20px;
+    border:1px solid var(--brass);
+    border-radius:3px;
+    margin-top:20px;
+    background:var(--panel-alt);
+  }
+  .rank-result.show{display:block;}
+  .rank-badge{
+    font-family:'Cormorant Garamond',serif;
+    font-size:34px;
+    color:var(--brass-bright);
+    margin:0 0 6px;
+  }
+  .rank-desc{color:var(--text-dim);font-size:13.5px;margin-bottom:18px;}
+  .leaderboard-row{
+    display:flex;
+    justify-content:space-between;
+    padding:8px 0;
+    border-bottom:1px solid var(--line);
+    font-size:13.5px;
+  }
+  .leaderboard-row:last-child{border-bottom:none;}
+  .leaderboard-row .rk{color:var(--brass);}
+
+  .foot-note{
+    color:var(--text-dim);
+    font-size:12px;
+    text-align:center;
+    margin-top:40px;
+    line-height:1.6;
+  }
+  .legal-block{
+    color:var(--text-dim);
+    font-size:11.5px;
+    line-height:1.7;
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+  }
+  .legal-block b{color:var(--text);}
+  .legal-block a{color:var(--brass);}
+
+  /* ENTITY FILTER TABS */
+  .floor-tabs{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+  .floor-tab{
+    background:var(--panel-alt);
+    border:1px solid var(--line);
+    color:var(--text-dim);
+    padding:8px 16px;
+    border-radius:999px;
+    font-size:12.5px;
+    font-weight:700;
+    cursor:pointer;
+    font-family:'Manrope',sans-serif;
+    transition:all .12s ease;
+  }
+  .floor-tab:hover{border-color:var(--brass); color:var(--text);}
+  .floor-tab.active{
+    background:var(--brass);
+    border-color:var(--brass);
+    color:#1A1408;
+    box-shadow:0 2px 0 #7A6118;
+  }
+  .entity-card{position:relative;}
+  .entity-card .dmg{
+    display:inline-block;
+    margin-top:8px;
+    font-size:11px;
+    color:var(--brass);
+    font-weight:700;
+    letter-spacing:.02em;
+  }
+  .entity-card .floor-badge{
+    position:absolute;
+    top:14px;right:14px;
+    font-size:10px;
+    color:var(--text-dim);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:2px 8px;
+  }
+
+  /* COOKIE BANNER */
+  .cookie-banner{
+    position:fixed;
+    left:0;right:0;bottom:0;
+    z-index:50;
+    background:var(--panel);
+    border-top:1px solid var(--brass);
+    padding:16px 20px;
+    display:none;
+    box-shadow:0 -8px 24px rgba(0,0,0,.5);
+  }
+  .cookie-banner.show{display:block;}
+  .cookie-inner{
+    max-width:920px;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .cookie-inner p{
+    margin:0;
+    font-size:12.5px;
+    color:var(--text-dim);
+    line-height:1.5;
+    max-width:64ch;
+  }
+  .cookie-inner p b{color:var(--text);}
+  .cookie-actions{display:flex;gap:10px;flex-shrink:0;}
+  .cookie-actions .btn, .cookie-actions .btn-ghost{padding:9px 18px;font-size:12.5px;}
+
+  @media(max-width:640px){
+    .stat-form,.entity-grid{grid-template-columns:1fr;}
+    .stat-summary{grid-template-columns:1fr 1fr;}
+  }
+
+  /* ===== АТМОСФЕРНЫЕ ЭФФЕКТЫ (стиль Doors) ===== */
+
+  /* виньетка по краям экрана */
+  .vignette{
+    position:fixed; inset:0;
+    pointer-events:none;
+    z-index:1;
+    background:radial-gradient(ellipse 90% 70% at 50% 45%, transparent 55%, rgba(0,0,0,.55) 100%);
+  }
+
+  /* зерно/шум, как на плёнке — едва заметное */
+  .grain{
+    position:fixed; inset:-20px;
+    pointer-events:none;
+    z-index:2;
+    opacity:.05;
+    mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* редкое мерцание света, будто лампа в коридоре барахлит */
+  body{animation:room-flicker 9s infinite;}
+  @keyframes room-flicker{
+    0%,93%,95%,100%{filter:brightness(1);}
+    93.5%{filter:brightness(.85);}
+    94.2%{filter:brightness(1.06);}
+    94.6%{filter:brightness(.9);}
+  }
+
+  .hero-brand .digit{ text-shadow:0 0 18px rgba(227,193,91,.35); }
+
+  /* тлеющие искры-свечи, поднимающиеся снизу */
+  .embers{position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden;}
+  .embers span{
+    position:absolute;
+    bottom:-10px;
+    width:3px;height:3px;
+    border-radius:50%;
+    background:var(--brass-bright);
+    box-shadow:0 0 6px 2px rgba(227,193,91,.55);
+    opacity:0;
+    animation:ember-rise linear infinite;
+  }
+  @keyframes ember-rise{
+    0%{ transform:translateY(0) translateX(0); opacity:0; }
+    8%{ opacity:.85; }
+    85%{ opacity:.5; }
+    100%{ transform:translateY(-105vh) translateX(var(--drift,20px)); opacity:0; }
+  }
+
+  /* лёгкое "дыхание" рамки у активной двери */
+  .door-plaque.active{animation:plaque-glow 3.4s ease-in-out infinite;}
+  @keyframes plaque-glow{
+    0%,100%{box-shadow:0 0 0 1px var(--brass), 0 4px 10px rgba(0,0,0,.3);}
+    50%{box-shadow:0 0 0 1px var(--brass-bright), 0 0 14px 1px rgba(227,193,91,.35), 0 4px 10px rgba(0,0,0,.3);}
+  }
+
+  /* кнопка связи в Telegram */
+  .tg-fab{
+    position:fixed;
+    right:20px; bottom:20px;
+    z-index:60;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    background:var(--brass);
+    color:#1A1408;
+    padding:12px 18px 12px 14px;
+    border-radius:999px;
+    text-decoration:none;
+    font-family:'Manrope',sans-serif;
+    font-weight:700;
+    font-size:13.5px;
+    box-shadow:var(--btn-shadow);
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .tg-fab:hover{background:var(--brass-bright); transform:translateY(-3px); box-shadow:0 6px 0 #7A6118, 0 12px 20px rgba(0,0,0,.5);}
+  .tg-fab:active{transform:translateY(1px);}
+  .tg-fab svg{width:18px;height:18px;flex:0 0 auto;}
+  .tg-fab .tg-pulse{
+    position:absolute; inset:-4px;
+    border-radius:999px;
+    border:1px solid var(--brass-bright);
+    opacity:0;
+    animation:tg-pulse 2.6s ease-out infinite;
+  }
+  @keyframes tg-pulse{
+    0%{opacity:.55; transform:scale(1);}
+    100%{opacity:0; transform:scale(1.18);}
+  }
+  @media(max-width:640px){
+    .tg-fab span.tg-label{display:none;}
+    .tg-fab{padding:13px;}
+  }
+</style>
+</head>
+<body>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="embers" id="embers" aria-hidden="true"></div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <h1 class="hero-brand"><span class="digit">100</span>КОРИДОР</h1>
+    <p class="hero-tag">Фан-хаб по Doors: открывай кейсы понарошку, веди счёт своих забегов и сверяй ранг с другими игроками. Без реальных денег, без обмена предметами — только вайб.</p>
+  </header>
+
+  <nav class="doors-nav">
+    <button class="door-plaque active" data-tab="cases">
+      <span class="num">1</span>
+      <span class="label"><b>Кейсы</b><span>открой на удачу</span></span>
+    </button>
+    <button class="door-plaque" data-tab="stats">
+      <span class="num">2</span>
+      <span class="label"><b>Статистика</b><span>твои забеги</span></span>
+    </button>
+    <button class="door-plaque" data-tab="community">
+      <span class="num">3</span>
+      <span class="label"><b>Комьюнити</b><span>сущности и обсуждения</span></span>
+    </button>
+    <button class="door-plaque" data-tab="rank">
+      <span class="num">4</span>
+      <span class="label"><b>Ранг</b><span>кто ты в Doors</span></span>
+    </button>
+    <button class="door-plaque" data-tab="guide">
+      <span class="num">5</span>
+      <span class="label"><b>Гайд по спасению</b><span>как выжить от каждой сущности</span></span>
+    </button>
+  </nav>
+
+  <main id="content">
+
+    <!-- TAB 1: CASES -->
+    <section id="tab-cases" class="tab active">
+      <h2 class="section-title">Открытие кейсов</h2>
+      <p class="section-sub">Свечи виртуальные и обнуляются при желании — их нельзя купить, продать или вывести. Это чисто развлекательный виджет.</p>
+
+      <div class="panel">
+        <div class="balance-row">
+          <div class="balance" id="candleBalance">— <small>свечей на счету</small></div>
+          <div style="display:flex;gap:10px;">
+            <button class="btn btn-ghost" id="claimBtn">Забрать дневные свечи</button>
+            <button class="btn" id="openBtn">Открыть кейс · 100 🕯️</button>
+          </div>
+        </div>
+
+        <div class="reel">
+          <div class="reel-marker"></div>
+          <div class="reel-track" id="reelTrack"></div>
+        </div>
+        <div class="result-line" id="resultLine">Нажми «Открыть кейс», чтобы узнать, что выпадет.</div>
+
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:18px;margin:22px 0 10px;">Твой инвентарь</h3>
+        <div id="inventoryBox"><p class="empty-note">Пока пусто — открой первый кейс.</p></div>
+      </div>
+    </section>
+
+    <!-- TAB 2: STATS -->
+    <section id="tab-stats" class="tab">
+      <h2 class="section-title">Статистика забегов</h2>
+      <p class="section-sub">Записывай каждый свой забег вручную — так собирается личная история прогресса.</p>
+
+      <div class="panel">
+        <div class="stat-summary" id="statSummary"></div>
+
+        <div class="stat-form">
+          <div>
+            <label>Этаж, до которого дошёл (1–100)</label>
+            <input type="number" id="inFloor" min="1" max="100" placeholder="напр. 50">
+          </div>
+          <div>
+            <label>Смертей за забег</label>
+            <input type="number" id="inDeaths" min="0" placeholder="напр. 2">
+          </div>
+          <div>
+            <label>Время забега (минут)</label>
+            <input type="number" id="inTime" min="0" placeholder="напр. 35">
+          </div>
+          <div>
+            <label>Соло или с друзьями</label>
+            <select id="inMode">
+              <option value="solo">Соло</option>
+              <option value="party">С друзьями</option>
+            </select>
+          </div>
+          <div class="full">
+            <label>Заметка (необязательно)</label>
+            <textarea id="inNote" placeholder="что пошло не так, где застрял и т.п."></textarea>
+          </div>
+        </div>
+        <button class="btn" id="addRunBtn">Записать забег</button>
+
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:18px;margin:24px 0 8px;">История</h3>
+        <div id="runsList"><p class="empty-note">Забегов пока нет.</p></div>
+      </div>
+    </section>
+
+    <!-- TAB 3: COMMUNITY -->
+    <section id="tab-community" class="tab">
+      <h2 class="section-title">Комьюнити</h2>
+      <p class="section-sub">Коротко о сущностях, с которыми встречаешься по пути, и место для общих обсуждений.</p>
+
+      <div class="floor-tabs" id="floorTabs">
+        <button class="floor-tab active" data-floor="all">Все локации</button>
+        <button class="floor-tab" data-floor="hotel">Отель</button>
+        <button class="floor-tab" data-floor="mines">Шахты (Mines / субфлор)</button>
+        <button class="floor-tab" data-floor="backdoor">Бэкдор</button>
+        <button class="floor-tab" data-floor="outdoors">Great Outdoors</button>
+        <button class="floor-tab" data-floor="archives">Архивы (экс-Комнаты)</button>
+        <button class="floor-tab" data-floor="stairwell">Лестничный пролёт</button>
+      </div>
+      <div class="entity-grid" id="entityGrid"></div>
+
+      <div class="panel">
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;margin:0 0 4px;">Обсуждения</h3>
+        <p class="section-sub" style="margin-bottom:14px;">Сообщения видны всем посетителям хаба.</p>
+        <div id="forumList"><p class="empty-note">Пока никто не писал — начни первым.</p></div>
+        <div class="forum-form">
+          <input type="text" id="forumName" placeholder="твой ник" maxlength="24">
+          <input type="text" id="forumMsg" placeholder="сообщение" maxlength="240">
+          <button class="btn" id="forumSend">Отправить</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: RANK -->
+    <section id="tab-rank" class="tab">
+      <h2 class="section-title">Определи свой ранг</h2>
+      <p class="section-sub">Пять вопросов о твоём опыте в Doors — самооценка, не привязанная к реальному аккаунту.</p>
+
+      <div class="panel">
+        <div class="quiz-q">
+          <label>Сколько раз ты проходил Doors целиком (1–100)?</label>
+          <select id="q1">
+            <option value="0">Ни разу</option>
+            <option value="1">1–2 раза</option>
+            <option value="2">3–10 раз</option>
+            <option value="3">Больше 10 раз</option>
+          </select>
+        </div>
+        <div class="quiz-q">
+          <label>Как обычно проходишь Rush?</label>
+          <select id="q2">
+            <option value="0">Часто теряю здоровье</option>
+            <option value="1">Иногда задевает</option>
+            <option value="2">Обычно ухожу чисто</option>
+            <option value="3">Всегда без урона</option>
+          </select>
+        </div>
+        <div class="quiz-q">
+          <label>Среднее число смертей за забег?</label>
+          <select id="q3">
+            <option value="0">5 и больше</option>
+            <option value="1">3–4</option>
+            <option value="2">1–2</option>
+            <option value="3">Почти никогда не умираю</option>
+          </select>
+        </div>
+        <div class="quiz-q">
+          <label>Как играешь чаще всего?</label>
+          <select id="q4">
+            <option value="0">Соло, осторожно</option>
+            <option value="1">С друзьями</option>
+            <option value="2">Соло, на скорость</option>
+            <option value="3">Спидран на время</option>
+          </select>
+        </div>
+        <div class="quiz-q">
+          <label>Знаешь наизусть паттерны сущностей?</label>
+          <select id="q5">
+            <option value="0">Только самые базовые</option>
+            <option value="1">Большинство знаю</option>
+            <option value="2">Почти все</option>
+            <option value="3">Абсолютно все, включая редкие</option>
+          </select>
+        </div>
+
+        <button class="btn" id="calcRankBtn">Узнать ранг</button>
+
+        <div class="rank-result" id="rankResult">
+          <div class="rank-badge" id="rankBadge">—</div>
+          <div class="rank-desc" id="rankDesc"></div>
+          <div class="forum-form" style="justify-content:center;">
+            <input type="text" id="rankName" placeholder="твой ник" maxlength="24">
+            <button class="btn btn-ghost" id="publishRankBtn">Добавить в таблицу рангов</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;margin:0 0 12px;">Таблица рангов</h3>
+        <div id="leaderboardList"><p class="empty-note">Пока никто не опубликовал ранг.</p></div>
+      </div>
+    </section>
+
+    <!-- TAB 5: SURVIVAL GUIDE -->
+    <section id="tab-guide" class="tab">
+      <h2 class="section-title">Гайд по спасению</h2>
+      <p class="section-sub">Вики-туториал по каждой сущности Doors: как её узнать заранее и что конкретно делать, чтобы выжить. Составлено и сверено по актуальным данным вики Doors, включая обновление The Archives (28 августа 2026).</p>
+
+      <div class="floor-tabs" id="guideFloorTabs">
+        <button class="floor-tab active" data-floor="all">Все локации</button>
+        <button class="floor-tab" data-floor="hotel">Отель</button>
+        <button class="floor-tab" data-floor="mines">Шахты (Mines)</button>
+        <button class="floor-tab" data-floor="backdoor">Бэкдор</button>
+        <button class="floor-tab" data-floor="outdoors">Great Outdoors</button>
+        <button class="floor-tab" data-floor="archives">Архивы (экс-Комнаты)</button>
+        <button class="floor-tab" data-floor="stairwell">Лестничный пролёт</button>
+      </div>
+
+      <div class="panel" style="margin-bottom:18px;">
+        <p style="font-size:13px;color:var(--text-dim);line-height:1.6;margin:0;">
+          <b style="color:var(--text);">О разделе «Архивы».</b> 28 августа 2026 года «Комнаты» (The Rooms) были заменены новым подэтажом «Архивы» (The Archives) — старый этаж убран из выбора этажей, а его сущности A-60 / A-90 / A-120 переработаны и переименованы в Bash, Ransom и Scribbles. Вместе с Архивами добавлен ещё один новый подэтаж — «Лестничный пролёт» (The Stairwell), попасть в него можно через дверь 152 или случайно через люк в боковой комнате. Часть сущностей этого обновления (Noise, Creak, Stem, Meld, Cobbler) относится именно к Лестничному пролёту, а не к самим Архивам.
+        </p>
+      </div>
+
+      <div class="guide-grid" id="guideGrid"></div>
+    </section>
+
+  </main>
+
+  <p class="foot-note">КОРИДОР — фан-проект сообщества, не связан с разработчиками Doors (LSPLASH) и Roblox Corporation.<br>Все свечи и предметы виртуальные, существуют только внутри этой страницы, не продаются и не обмениваются на реальные деньги.</p>
+
+  <div class="legal-block">
+    <b>Авторские права.</b> DOORS — торговая марка и оригинальная игра, разработанная студией LSPLASH. Названия сущностей, локаций и связанные элементы вселенной Doors упомянуты здесь исключительно в информационных и фанатских целях (правило добросовестного использования / fan use) и принадлежат их правообладателям. КОРИДОР не претендует на права на игру Doors, её персонажей, музыку, тексты или графику и не является официальным продуктом LSPLASH. Весь остальной код, тексты описаний и оформление этой страницы — авторская работа создателей КОРИДОРА.<br><br>
+    <b>Файлы cookie и локальное хранилище.</b> Эта страница использует технологию локального хранения (аналог cookie-файлов) для сохранения твоего прогресса: баланса свечей, инвентаря, истории забегов и результата теста на ранг. Публичные разделы («Обсуждения» и «Таблица рангов») хранятся в общем хранилище и видны всем посетителям — не публикуй туда личные данные. Мы не собираем платёжные данные, не используем сторонние рекламные трекеры и не передаём данные третьим лицам.
+  </div>
+</div>
+
+<a class="tg-fab" href="https://t.me/Mafffor" target="_blank" rel="noopener">
+  <span class="tg-pulse"></span>
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.5 3.5 2.7 10.9c-1.1.45-1.1 1.1-.2 1.38l4.8 1.5 11.1-7c.52-.32 1-.15.6.2l-9 8.1-.35 4.9c.5 0 .72-.23 1-.5l2.4-2.3 5 3.6c.9.5 1.55.24 1.78-.83l3.2-15.1c.33-1.3-.5-1.9-1.53-1.46Z" fill="#1A1408"/></svg>
+  <span class="tg-label">Написать администратору</span>
+</a>
+
+<div class="cookie-banner" id="cookieBanner">
+  <div class="cookie-inner">
+    <p><b>Мы используем локальное хранилище (cookie-подобную технологию)</b>, чтобы сохранять твой прогресс — свечи, инвентарь, забеги и ранг. Раздел «Обсуждения» и «Таблица рангов» видны всем посетителям. Продолжая пользоваться КОРИДОРОМ, ты соглашаешься с этим.</p>
+    <div class="cookie-actions">
+      <button class="btn-ghost btn" id="cookieDetailsBtn">Подробнее</button>
+      <button class="btn" id="cookieAcceptBtn">Хорошо, понятно</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Автономное хранилище: window.storage существует только внутри Claude-артефактов.
+  // На обычном хостинге его нет — без этой прослойки все кнопки, завязанные на
+  // сохранение (кейсы, статистика, форум, ранги, cookie-баннер), не работали.
+  if(!window.storage){
+    const nsKey = (key, shared) => (shared ? 'koridor:shared:' : 'koridor:user:') + key;
+    window.storage = {
+      async get(key, shared){
+        const raw = localStorage.getItem(nsKey(key, shared));
+        if(raw === null) throw new Error('not found');
+        return {key, value: raw, shared: !!shared};
+      },
+      async set(key, value, shared){
+        localStorage.setItem(nsKey(key, shared), value);
+        return {key, value, shared: !!shared};
+      },
+      async delete(key, shared){
+        localStorage.removeItem(nsKey(key, shared));
+        return {key, deleted:true, shared: !!shared};
+      },
+      async list(prefix, shared){
+        const p = nsKey(prefix||'', shared);
+        const keys = Object.keys(localStorage).filter(k=>k.startsWith(p)).map(k=>k.slice(nsKey('',shared).length));
+        return {keys, prefix, shared: !!shared};
+      }
+    };
+  }
+
+  const ITEMS = [
+    {name:'Бинт', icon:'🩹', rarity:'common'},
+    {name:'Витамины', icon:'💊', rarity:'common'},
+    {name:'Фонарик', icon:'🔦', rarity:'common'},
+    {name:'Отмычка', icon:'🗝️', rarity:'uncommon'},
+    {name:'Распятие', icon:'✝️', rarity:'uncommon'},
+    {name:'Картина', icon:'🖼️', rarity:'uncommon'},
+    {name:'Раш-напиток', icon:'🥤', rarity:'rare'},
+    {name:'Скелетный ключ', icon:'🔑', rarity:'rare'},
+    {name:'Рация', icon:'📻', rarity:'rare'},
+    {name:'Странное кольцо', icon:'💍', rarity:'mythic'},
+    {name:'Глаз подвала', icon:'👁️', rarity:'mythic'},
+  ];
+  const WEIGHTS = {common:55, uncommon:27, rare:13, mythic:5};
+  const RANKS = [
+    {min:0, max:4, name:'Новичок', desc:'Только начинаешь путь по коридорам — впереди ещё много дверей.'},
+    {min:5, max:8, name:'Рядовой', desc:'Уже освоился с базовыми сущностями и увереннее держишься на первых этажах.'},
+    {min:9, max:11, name:'Ветеран', desc:'Знаешь большинство паттернов и редко теряешься в сложных отрезках.'},
+    {min:12, max:15, name:'Мастер', desc:'Проходишь коридор почти без ошибок — редкий уровень мастерства.'},
+  ];
+
+  const ENTITIES = [
+    // ОТЕЛЬ (большинство также встречаются в Шахтах)
+    {name:'Rush', floor:'hotel', dmg:'Летален при контакте', cue:'Свет резко и часто мигает, слышен нарастающий гул/свист — сущность несётся по коридору.', action:'Сразу спрячься в шкаф или под кровать и жди, пока звук полностью не стихнет. Выходить слишком рано — частая причина смерти.'},
+    {name:'Ambush', floor:'hotel', dmg:'Средний урон', cue:'Похожие сигналы, что и у Rush (мигание света), но проходов несколько подряд.', action:'Прячься сразу же и не выходи, пока в коридоре не станет полностью тихо — Ambush делает несколько заходов туда-обратно.'},
+    {name:'Seek', floor:'hotel', dmg:'Летален при поимке', cue:'На стенах начинают появляться глаза-символы — стартует погоня-«босс».', action:'Беги за голубым свечением Guiding Light, приседай под арками, на развилках быстро смотри в обе стороны — если свечения не видно ни слева, ни справа, путь прямо.'},
+    {name:'Figure', floor:'hotel', dmg:'Летален', cue:'Тяжёлые шаги; сущность слепа, но чутко реагирует на звук.', action:'Двигайся медленно и приседая, не роняй предметы и не беги рядом с ним — шум выдаёт твоё местоположение.'},
+    {name:'Timothy', floor:'hotel', dmg:'5 урона, не убивает', cue:'Сидит в ящиках и шкафчиках, неожиданно выпрыгивает.', action:'Практически безопасен — просто пугает и слегка царапает. Распятие (Crucifix) блокирует его атаку.'},
+    {name:'Jack', floor:'hotel', dmg:'Крадёт предметы', cue:'Подкрадывается незаметно, целится в предмет у тебя в руках.', action:'Не держи ценный предмет в руках без надобности на открытых участках — так его не выхватят.'},
+    {name:'Hide', floor:'hotel', dmg:'40 урона, не убивает', cue:'На экране появляется мигающий предупреждающий текст — значит, ты прячешься уже слишком долго.', action:'Выйди из укрытия сразу после предупреждения, если рядом нет Rush/другой угрозы. Лучше получить 40 урона и потерять доступ к укрытиям на 10–20 сек, чем остаться внутри.'},
+    {name:'Screech', floor:'hotel', dmg:'40 урона', cue:'В тёмной комнате слышен тихий звук «пст» и лёгкая тряска экрана.', action:'Как только услышал «пст» — быстро осмотрись (потолок, пол, за спиной) и посмотри прямо на него: тогда он закричит и исчезнет. Активный фонарик/зажигалка снижают шанс появления, но не убирают полностью.'},
+    {name:'Shadow', floor:'hotel', dmg:'Урон по здоровью', cue:'Появляется только в кромешной темноте.', action:'Держи под рукой любой источник света, чтобы не оказаться в полной темноте без вариантов.'},
+    {name:'Guiding Light', floor:'hotel', dmg:'Безопасен', cue:'Голубое парящее свечение.', action:'Дружелюбная сущность — следуй за ней во время погони Seek, вреда не причиняет.'},
+    {name:'Eyes', floor:'hotel', dmg:'Урон при взгляде', cue:'Светящиеся глаза на стенах, издают гудящий звук.', action:'Не смотри на них — отводи взгляд, смотри под ноги или в сторону, пока не пройдёшь мимо.'},
+    {name:'Halt', floor:'hotel', dmg:'Урон при взгляде', cue:'Сигналы похожи на Rush/Ambush, но с другим криком; двигается туда-обратно несколько раз.', action:'Не смотри на него, когда он проходит рядом с укрытием — отворачивайся, пока полностью не уйдёт.'},
+    {name:'Glitch', floor:'hotel', dmg:'Без урона (не канон до апдейта)', cue:'Ломает интерфейс, звук и текстуры на несколько секунд.', action:'Урона не наносит — сохраняй спокойствие и продолжай двигаться по памяти, пока эффект не пройдёт.'},
+    {name:'Jeff', floor:'hotel', dmg:'Безопасен', cue:'Магазин за отдельной дверью (комната 52).', action:'Торговец, меняет предметы на монеты — угрозы не представляет.'},
+    {name:'El Goblino', floor:'hotel', dmg:'Безопасен', cue:'Гоблин-торговец за закрытой дверью.', action:'Продаёт редкие предметы за монеты — угрозы не представляет.'},
+    {name:'Bob', floor:'hotel', dmg:'Безопасен, помогает', cue:'Спутник, которого можно найти и позвать с собой.', action:'Освобождает и облегчает прохождение — бери с собой, если нашёл.'},
+    {name:'Void', floor:'hotel', dmg:'Затягивает, летален', cue:'Тёмная воронка/провал в полу.', action:'Обходи стороной, не подходи к краю провала.'},
+    {name:'Snare', floor:'hotel', dmg:'Стан, не убивает', cue:'Скопление дыр или лиана в полу — хорошо видна при свете фонарика.', action:'Свети под ноги в комнатах, где может быть ловушка, и просто обходи её.'},
+    {name:'Dupe', floor:'hotel', dmg:'Дублирует опасность', cue:'В комнате внезапно оказывается вторая активная сущность.', action:'Дублирует уже присутствующую угрозу — будь готов реагировать сразу на двух источников опасности одновременно.'},
+    {name:'Dread', floor:'hotel', dmg:'Летален (при поимке)', cue:'Свет надолго начинает мигать/гаснуть, слышно нарастающее дыхание и стук сердца; экран становится чёрно-белым. Срабатывает, если задержаться в одной комнате примерно до полуночи по игровым часам.', action:'Как только заметил признаки — иди к следующей ещё не открытой пронумерованной двери и открой её: Dread исчезает сразу же. Не стой на месте и не уходи в AFK, ожидая его появления.'},
+    {name:'World Lotus', floor:'hotel', dmg:'Безопасен/особый', cue:'Редкий гигантский цветок с шипами и толстыми лозами.', action:'Не сущность-угроза, а особый объект — связан с механикой возрождения (Lotus Rebirth).'},
+    {name:'Curious Light', floor:'hotel', dmg:'Безопасен', cue:'Любопытный огонёк, летает рядом и реагирует на действия игрока.', action:'Дружелюбна, угрозы не представляет.'},
+    {name:'Sally', floor:'hotel', dmg:'Не убивает', cue:'Очень редкая пасхалка-сущность.', action:'Одна из немногих враждебных сущностей, неспособных убить игрока без модификаторов — не критична.'},
+    {name:'Louie', floor:'hotel', dmg:'Разное', cue:'Появляется в отдельных комнатах после «Контентного обновления».', action:'Поведение зависит от конкретной комнаты — действуй по обстановке, спрятаться в укрытие безопаснее всего.'},
+    // ШАХТЫ / MINES (субфлор, ниже — сущности, добавленные именно здесь)
+    {name:'Grumble', floor:'mines', dmg:'~50 урона + отбрасывание', cue:'Крупное существо, патрулирует Гнездо (The Nest) на глубоких участках шахт.', action:'Свет (бликлайт, зажигалка) на время отвлекает и замедляет его; прячься в узких проходах, куда он не пролезет; теряй прямую видимость — Grumble прекращает погоню, если не видит тебя.'},
+    {name:'Queen Grumble', floor:'mines', dmg:'Высокий урон', cue:'Более крупная и опасная версия Grumble в собственном логове.', action:'Та же тактика, что и с обычным Grumble, но урон выше — избегай прямого контакта и используй укрытия заранее.'},
+    {name:'Giggle', floor:'mines', dmg:'~7 урона за тик', cue:'Характерный смех и силуэт на потолке пещеры перед прыжком.', action:'Не ходи прямо под ним; посвети фонариком или брось глоустик — это собьёт его вниз/спугнёт, прежде чем он спрыгнет тебе на лицо.'},
+    {name:'Gloombats', floor:'mines', dmg:'~10 урона за тик, ломают свет', cue:'Стая мотылькоподобных существ с жёлтыми светящимися глазами, обычно в тёмных комнатах.', action:'Немедленно выключи все источники света (кроме глоустика/лазерной указки) — Gloombats атакуют именно свет, а не тебя напрямую; без света они безобидны.'},
+    // БЭКДОР (спидран-подэтаж, добавлен в The Hunt Update)
+    {name:'Blitz', floor:'backdoor', dmg:'Высокая скорость, летален', cue:'Очень быстрая сущность, характерная только для Бэкдора.', action:'Заранее знай маршрут и ближайшие укрытия — здесь важнее скорость реакции, чем скрытность.'},
+    {name:'Lookman', floor:'backdoor', dmg:'Урон при взгляде', cue:'Аналог Eyes для Бэкдора.', action:'Не смотри на него напрямую, как и на обычных Eyes.'},
+    {name:'Haste', floor:'backdoor', dmg:'Давит лимитом времени', cue:'Появляется как индикатор на экране, подгоняющий по таймеру.', action:'Не задерживайся на месте — двигайся быстрее обычного и планируй путь заранее, чтобы уложиться в лимит.'},
+    // GREAT OUTDOORS (обновление The Great Outdoors)
+    {name:'Groundskeeper', floor:'outdoors', dmg:'Летален', cue:'Садовник с косой; убивает, если замечает тебя на газоне вне дорожек.', action:'Держись мощёных дорожек и троп, не сходи на траву — особенно если он поблизости. Иногда помогает выявить замаскированные Monument своим фонарём.'},
+    {name:'Caw', floor:'outdoors', dmg:'Безопасен', cue:'Вороноподобная сущность, кружит там, где рядом спрятаны ключи или лепестки лотоса.', action:'Угрозы не представляет — можно покормить хлебом; ориентируйся по ней, чтобы найти предметы поблизости.'},
+    {name:'Monument', floor:'outdoors', dmg:'35 урона или мгновенная смерть', cue:'Выглядит как треснувший обелиск/статуя, увитая лозами — но это не настоящий памятник.', action:'НЕ отводи взгляд — сущность движется только тогда, когда на неё не смотрят (принцип «замри-отомри»). Ищи трещины и лозы у основания, чтобы отличить её от настоящей статуи, и держи её в поле зрения, пока не окажешься на безопасном расстоянии.'},
+    {name:'Surge', floor:'outdoors', dmg:'Урон по здоровью', cue:'Резкий сигнал приближения на открытой местности.', action:'Как только заметил признаки — быстро укройся в постройке или нише; простого увеличения дистанции может не хватить, нужно именно укрытие.'},
+    {name:'Mandrake', floor:'outdoors', dmg:'Может довести до смерти криком', cue:'Растение-репа с жёлтыми глазами, выглядывает из земли на грядках.', action:'Аккуратно подними и посади её обратно в землю, либо отнеси Groundskeeper’у — он обезвредит её косой. Можно попытаться убежать, но её лоза способна дотянуться вслед.'},
+    {name:'Eyestalk', floor:'outdoors', dmg:'Летален при поимке', cue:'Одноразовая сущность в виде оплетённого лозами ствола — запускает погоню через несколько комнат Outdoors.', action:'Не механика Eyes — здесь нужно бежать по маршруту вперёд, не сворачивая и не останавливаясь, пока погоня не закончится.'},
+    {name:'Bramble', floor:'outdoors', dmg:'Летален', cue:'Финальный «босс» локации — фонарный столб, оплетённый лозами, бродит по Живой изгороди (Hedge Maze).', action:'Замри и не двигайся, пока его свет направлен на тебя — движение под лучом смертельно опасно. Пока свет выключен, Bramble безвреден.'},
+    {name:'Grampy', floor:'outdoors', dmg:'Безопасен', cue:'Пожилой NPC у Мельницы (The Mill), в дружеских отношениях с Groundskeeper.', action:'Просто поговори с ним; собери 8 лепестков лотоса — и он создаст для тебя Lotus (предмет возрождения).'},
+    // АРХИВЫ (The Archives, заменили The Rooms 28.08.2026)
+    {name:'Bash', floor:'archives', dmg:'Поджигает (урон со временем)', cue:'Треск/шипящий звук — несётся по коридорам Архивов, как Rush, но не убивает мгновенно.', action:'Успей спрятаться в шкаф или боковую комнату — огонь, которым он тебя поджигает, убивает не сразу, у тебя есть короткое окно.'},
+    {name:'Ransom', floor:'archives', dmg:'Забирает предметы (переработанный A-90)', cue:'Экран заливает красная глючная статика, слышен искажённый писк.', action:'Замри и не делай никаких действий, затем набери требуемую сумму золота (около 500) в течение отведённого времени и заплати — иначе потеряешь предметы из инвентаря.'},
+    {name:'Scribbles', floor:'archives', dmg:'Урон бумагой (переработанный A-120)', cue:'Скопление анимированных листов бумаги, разлетающихся по комнатам.', action:'Спрячься за стеной, крупной колонной или в шкафу; в длинном коридоре можно просто отбежать подальше от радиуса действия бумаги.'},
+    {name:'Teller', floor:'archives', dmg:'Урон при погоне', cue:'Гуманоид с телевизором вместо головы на колёсиках, блокирует двери и выдаёт талон с номером очереди.', action:'Следи за номером на табло Teller и верни талон, когда счётчик совпадёт с твоим номером. Не успел — начнётся погоня: прячься в шкаф, там Teller заберёт талон без урона.'},
+    {name:'Alma', floor:'archives', dmg:'Летальна при долгом взгляде', cue:'Серо-белая фигура со светящимся лицом, кружит вокруг тебя; издалека слышен детский плач.', action:'Не смотри на неё — гляди в пол и отворачивайся каждый раз, когда она оказывается в поле зрения. Взгляд дольше секунды провоцирует рывок в твою сторону.'},
+    {name:'Drones', floor:'archives', dmg:'~5 урона от касания, до 35 при давке', cue:'Силуэты с лицами-стикерами, бесцельно бродят по офисным комнатам.', action:'Держись подальше от их маршрута — столкновение сбивает с ног. В 9:00 и 5:00 по внутриигровым часам начинается давка (стампид): в этот момент лучше укрыться в шкафу или боковой комнате.'},
+    {name:'Honcho', floor:'archives', dmg:'Разное', cue:'Похожий на бумагу «начальник» Архивов с зачернённым вместо лица квадратом.', action:'Во время встречи с ним рассортируй посылки по правильным номерам до того, как он подойдёт — это запускает продолжение сюжета без урона.'},
+    {name:'Portrait', floor:'archives', dmg:'Не убивает напрямую', cue:'Появляется, если долго смотреть в зеркало в ванной комнате, пока оно не треснет.', action:'Копирует твои действия и предметы — можно безопасно взаимодействовать с ним и даже получить дубликат предмета.'},
+    {name:'Forget-Me-Nots', floor:'archives', dmg:'Не атакует напрямую, блокирует путь', cue:'Синие лозы с цветами и жёлтыми глазами полностью закрывают дверной проём в комнате станции метро; похожие цветы прорастают на стенах и потолке.', action:'Найди и убери (очисти) все мелкие цветы, разросшиеся по стенам комнаты, прежде чем закончится время — тогда большой цветок на двери исчезнет и путь откроется. Похоже на механику «найди отличия» из The Exit 8.'},
+    {name:'Fih', floor:'archives', dmg:'Безопасен', cue:'Пассивная сущность, живёт в аквариумах, расставленных по Архивам.', action:'Угрозы не представляет — её можно покормить специальной едой (Fih Food), опасностей это не несёт.'},
+    // ЛЕСТНИЧНЫЙ ПРОЛЁТ (The Stairwell, новый субфлор, добавлен вместе с The Archives 28.08.2026)
+    {name:'Noise', floor:'stairwell', dmg:'Не уточнён (обновление свежее)', cue:'Существо с телом из телевизионных помех и зубами, вылезает из экрана телевизора.', action:'Относись к любому телевизору в комнате как к потенциальной точке появления Noise — держись подальше и не задерживайся рядом с работающими экранами.'},
+    {name:'Creak', floor:'stairwell', dmg:'Не уточнён (обновление свежее)', cue:'Высокая, худая фигура, покрытая мясистыми отверстиями; пугливая — реагирует, если её заметили, а не сама преследует.', action:'Не привлекай к себе внимание рядом с ней и не задерживайся с открытой дверью на виду — долгое удержание двери оставляет тебя уязвимым именно тогда, когда Creak рядом.'},
+    {name:'Stem', floor:'stairwell', dmg:'Не представляет прямой угрозы', cue:'Небольшое существо, увязывается следом за игроком по этажу.', action:'Можно нейтрализовать, бросив в стену или пол — сущность лопается от броска (без вреда для игрока).'},
+    {name:'Meld', floor:'stairwell', dmg:'Блокирует путь', cue:'Мясистая субстанция, вырастающая в огромные плотские стены, которые могут смыкаться и перекрывать проход.', action:'Ищи поблизости пожарный рубильник/переключатель (fire switch) и подожги Meld им, чтобы расчистить путь.'},
+    {name:'Cobbler', floor:'stairwell', dmg:'Не уточнён, назначение неизвестно', cue:'Загадочная фигура в капюшоне, встречается в самом конце Лестничного пролёта, говорит на непонятном языке.', action:'На данный момент считается безопасной для взаимодействия — просто заговори с ней; точная механика ещё не до конца изучена комьюнити, обновление слишком свежее.'},
+  ];
+
+  const FLOOR_LABEL = {hotel:'Отель', mines:'Шахты', backdoor:'Бэкдор', outdoors:'Outdoors', archives:'Архивы', stairwell:'Лестн. пролёт'};
+
+  function renderEntities(filter){
+    const grid = document.getElementById('entityGrid');
+    const list = filter === 'all' ? ENTITIES : ENTITIES.filter(e => e.floor === filter);
+    grid.innerHTML = list.map(e => `
+      <div class="entity-card">
+        <span class="floor-badge">${FLOOR_LABEL[e.floor]}</span>
+        <h3>${e.name}</h3>
+        <p>${e.cue}</p>
+        <span class="dmg">${e.dmg}</span>
+      </div>
+    `).join('');
+  }
+
+  function renderGuide(filter){
+    const grid = document.getElementById('guideGrid');
+    const list = filter === 'all' ? ENTITIES : ENTITIES.filter(e => e.floor === filter);
+    grid.innerHTML = list.map(e => `
+      <div class="guide-card">
+        <span class="floor-badge">${FLOOR_LABEL[e.floor]}</span>
+        <h3>${e.name}</h3>
+        <div class="row">
+          <span class="row-label">Как узнать</span>
+          <p class="row-text">${e.cue}</p>
+        </div>
+        <div class="row">
+          <span class="row-label">Как спастись</span>
+          <p class="row-text">${e.action}</p>
+        </div>
+        <span class="dmg">${e.dmg}</span>
+      </div>
+    `).join('');
+  }
+
+  document.querySelectorAll('#floorTabs .floor-tab').forEach(btn => {
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#floorTabs .floor-tab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderEntities(btn.dataset.floor);
+    });
+  });
+
+  document.querySelectorAll('#guideFloorTabs .floor-tab').forEach(btn => {
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#guideFloorTabs .floor-tab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGuide(btn.dataset.floor);
+    });
+  });
+
+  // COOKIE / STORAGE CONSENT
+  async function initCookieBanner(){
+    try{
+      const r = await window.storage.get('cookie-consent', false);
+      if(r && r.value === 'accepted') return;
+    }catch(e){ /* not set yet */ }
+    document.getElementById('cookieBanner').classList.add('show');
+  }
+  document.getElementById('cookieAcceptBtn').addEventListener('click', async ()=>{
+    document.getElementById('cookieBanner').classList.remove('show');
+    try{ await window.storage.set('cookie-consent', 'accepted', false); }catch(e){ console.error(e); }
+  });
+  document.getElementById('cookieDetailsBtn').addEventListener('click', ()=>{
+    document.querySelector('.legal-block').scrollIntoView({behavior:'smooth', block:'center'});
+  });
+
+  let state = { candles: 500, inventory: [], runs: [], lastClaim: null };
+  let loaded = false;
+
+  async function loadState(){
+    try{
+      const r = await window.storage.get('profile', false);
+      if(r && r.value) state = JSON.parse(r.value);
+    }catch(e){ /* no saved profile yet */ }
+    loaded = true;
+    renderBalance();
+    renderInventory();
+    renderStats();
+  }
+  async function saveState(){
+    try{ await window.storage.set('profile', JSON.stringify(state), false); }
+    catch(e){ console.error('save failed', e); }
+  }
+
+  function renderBalance(){
+    document.getElementById('candleBalance').innerHTML = state.candles + ' 🕯️ <small>свечей на счету</small>';
+    const today = new Date().toDateString();
+    document.getElementById('claimBtn').disabled = state.lastClaim === today;
+    document.getElementById('openBtn').disabled = state.candles < 100;
+  }
+
+  function renderInventory(){
+    const box = document.getElementById('inventoryBox');
+    if(!state.inventory.length){ box.innerHTML = '<p class="empty-note">Пока пусто — открой первый кейс.</p>'; return; }
+    box.innerHTML = '<div class="inventory">' + state.inventory.slice().reverse().map(it =>
+      `<div class="inv-item rar-${it.rarity}"><span class="icon">${it.icon}</span>${it.name}</div>`
+    ).join('') + '</div>';
+  }
+
+  function weightedPick(){
+    const pool = [];
+    ITEMS.forEach(it => { for(let i=0;i<WEIGHTS[it.rarity];i++) pool.push(it); });
+    return pool[Math.floor(Math.random()*pool.length)];
+  }
+
+  function buildReel(finalItem){
+    const track = document.getElementById('reelTrack');
+    track.style.transition = 'none';
+    track.style.transform = 'translateX(0)';
+    const seq = [];
+    for(let i=0;i<24;i++) seq.push(weightedPick());
+    seq[20] = finalItem;
+    track.innerHTML = seq.map(it => `<div class="reel-item rar-${it.rarity}"><span class="icon">${it.icon}</span>${it.name}</div>`).join('');
+    void track.offsetWidth;
+    const itemWidth = 102;
+    const target = itemWidth*20 - 320;
+    requestAnimationFrame(()=>{
+      track.style.transition = 'transform 2.2s cubic-bezier(.15,.85,.25,1)';
+      track.style.transform = `translateX(-${target}px)`;
+    });
+  }
+
+  document.getElementById('openBtn').addEventListener('click', async ()=>{
+    if(state.candles < 100) return;
+    document.getElementById('openBtn').disabled = true;
+    state.candles -= 100;
+    renderBalance();
+    const won = weightedPick();
+    buildReel(won);
+    document.getElementById('resultLine').innerHTML = 'Крутим барабан…';
+    setTimeout(async ()=>{
+      state.inventory.push(won);
+      document.getElementById('resultLine').innerHTML = `Выпало: <b>${won.icon} ${won.name}</b> (${won.rarity})`;
+      renderInventory();
+      renderBalance();
+      await saveState();
+    }, 2300);
+  });
+
+  document.getElementById('claimBtn').addEventListener('click', async ()=>{
+    const today = new Date().toDateString();
+    if(state.lastClaim === today) return;
+    state.candles += 150;
+    state.lastClaim = today;
+    renderBalance();
+    await saveState();
+  });
+
+  // STATS
+  function renderStats(){
+    const runs = state.runs;
+    const best = runs.length ? Math.max(...runs.map(r=>r.floor)) : 0;
+    const avgDeaths = runs.length ? (runs.reduce((s,r)=>s+r.deaths,0)/runs.length).toFixed(1) : '0';
+    document.getElementById('statSummary').innerHTML = `
+      <div class="stat-box"><div class="val">${runs.length}</div><div class="lbl">забегов записано</div></div>
+      <div class="stat-box"><div class="val">${best}</div><div class="lbl">лучший этаж</div></div>
+      <div class="stat-box"><div class="val">${avgDeaths}</div><div class="lbl">смертей в среднем</div></div>
+    `;
+    const list = document.getElementById('runsList');
+    if(!runs.length){ list.innerHTML = '<p class="empty-note">Забегов пока нет.</p>'; return; }
+    list.innerHTML = runs.slice().reverse().map(r => `
+      <div class="run-row">
+        <span>Этаж ${r.floor} · ${r.mode === 'solo' ? 'соло' : 'с друзьями'}${r.note ? ' · ' + escapeHtml(r.note) : ''}</span>
+        <span class="meta">${r.deaths} смертей · ${r.time} мин</span>
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('addRunBtn').addEventListener('click', async ()=>{
+    const floor = parseInt(document.getElementById('inFloor').value);
+    if(!floor || floor < 1 || floor > 100){ alert('Укажи этаж от 1 до 100'); return; }
+    const run = {
+      floor,
+      deaths: parseInt(document.getElementById('inDeaths').value) || 0,
+      time: parseInt(document.getElementById('inTime').value) || 0,
+      mode: document.getElementById('inMode').value,
+      note: document.getElementById('inNote').value.trim(),
+    };
+    state.runs.push(run);
+    ['inFloor','inDeaths','inTime','inNote'].forEach(id => document.getElementById(id).value = '');
+    renderStats();
+    await saveState();
+  });
+
+  function escapeHtml(s){
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // FORUM (shared)
+  async function loadForum(){
+    const list = document.getElementById('forumList');
+    try{
+      const r = await window.storage.get('forum:posts', true);
+      const posts = r && r.value ? JSON.parse(r.value) : [];
+      if(!posts.length){ list.innerHTML = '<p class="empty-note">Пока никто не писал — начни первым.</p>'; return; }
+      list.innerHTML = posts.slice().reverse().map(p => `
+        <div class="forum-post">
+          <span class="who">${escapeHtml(p.name)}</span><span class="when">${p.date}</span>
+          <p>${escapeHtml(p.msg)}</p>
+        </div>
+      `).join('');
+    }catch(e){ list.innerHTML = '<p class="empty-note">Пока никто не писал — начни первым.</p>'; }
+  }
+  document.getElementById('forumSend').addEventListener('click', async ()=>{
+    const name = document.getElementById('forumName').value.trim() || 'Гость';
+    const msg = document.getElementById('forumMsg').value.trim();
+    if(!msg) return;
+    try{
+      const r = await window.storage.get('forum:posts', true);
+      const posts = r && r.value ? JSON.parse(r.value) : [];
+      posts.push({name, msg, date: new Date().toLocaleDateString('ru-RU')});
+      await window.storage.set('forum:posts', JSON.stringify(posts), true);
+      document.getElementById('forumMsg').value = '';
+      loadForum();
+    }catch(e){ console.error(e); }
+  });
+
+  // RANK
+  document.getElementById('calcRankBtn').addEventListener('click', ()=>{
+    const total = ['q1','q2','q3','q4','q5'].reduce((s,id)=> s + parseInt(document.getElementById(id).value), 0);
+    const rank = RANKS.find(r => total >= r.min && total <= r.max) || RANKS[RANKS.length-1];
+    document.getElementById('rankBadge').textContent = rank.name;
+    document.getElementById('rankDesc').textContent = rank.desc + ` (счёт: ${total}/15)`;
+    document.getElementById('rankResult').classList.add('show');
+    document.getElementById('rankResult').dataset.score = total;
+    document.getElementById('rankResult').dataset.rank = rank.name;
+  });
+
+  document.getElementById('publishRankBtn').addEventListener('click', async ()=>{
+    const el = document.getElementById('rankResult');
+    if(!el.classList.contains('show')) return;
+    const name = document.getElementById('rankName').value.trim() || 'Гость';
+    try{
+      const r = await window.storage.get('leaderboard', true);
+      const board = r && r.value ? JSON.parse(r.value) : [];
+      board.push({name, rank: el.dataset.rank, score: parseInt(el.dataset.score)});
+      await window.storage.set('leaderboard', JSON.stringify(board), true);
+      loadLeaderboard();
+    }catch(e){ console.error(e); }
+  });
+
+  async function loadLeaderboard(){
+    const list = document.getElementById('leaderboardList');
+    try{
+      const r = await window.storage.get('leaderboard', true);
+      const board = r && r.value ? JSON.parse(r.value) : [];
+      if(!board.length){ list.innerHTML = '<p class="empty-note">Пока никто не опубликовал ранг.</p>'; return; }
+      list.innerHTML = board.slice().reverse().slice(0,30).map(b => `
+        <div class="leaderboard-row"><span>${escapeHtml(b.name)}</span><span class="rk">${b.rank} · ${b.score}/15</span></div>
+      `).join('');
+    }catch(e){ list.innerHTML = '<p class="empty-note">Пока никто не опубликовал ранг.</p>'; }
+  }
+
+  // NAV
+  document.querySelectorAll('.door-plaque').forEach(btn => {
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.door-plaque').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // EMBERS (декоративные искры)
+  function initEmbers(){
+    const box = document.getElementById('embers');
+    const n = window.innerWidth < 640 ? 10 : 18;
+    let html = '';
+    for(let i=0;i<n;i++){
+      const left = Math.random()*100;
+      const duration = 9 + Math.random()*8;
+      const delay = Math.random()*duration;
+      const drift = (Math.random()*60-30).toFixed(0)+'px';
+      const size = (2 + Math.random()*2).toFixed(1)+'px';
+      html += `<span style="left:${left}%; width:${size}; height:${size}; --drift:${drift}; animation-duration:${duration}s; animation-delay:-${delay}s;"></span>`;
+    }
+    box.innerHTML = html;
+  }
+
+  loadState();
+  loadForum();
+  loadLeaderboard();
+  renderEntities('all');
+  renderGuide('all');
+  initCookieBanner();
+  initEmbers();
+})();
+</script>
+</body>
+</html>
